@@ -1,3 +1,4 @@
+import "express-async-errors";
 import express, { Express } from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -17,7 +18,7 @@ app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // Routes
-app.get("/", (req, res) => {
+app.get("/api/v1", (req, res) => {
   res.json({ message: "Welcome to the node mongoDB typescript API" });
 });
 
