@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import Resume from "model/Resume";
+import Resume from "../model/Resume";
 
 // 1. personal Info Step
 export async function personalInfoStep(req: Request, res: Response) {
   const { data, step } = req.body;
 
-  // await Resume.;
+  // await Resume;
 }
 
 export function experinceStep(req: Request, res: Response) {}

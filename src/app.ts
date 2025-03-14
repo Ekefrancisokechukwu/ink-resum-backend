@@ -6,6 +6,8 @@ import { config } from "dotenv";
 import { notFoundMiddleware } from "./middleware/notFoundMiddleware";
 import { errorMiddleware } from "./middleware/errorMiddleware";
 
+import authRouter from "./routes/authRoutes";
+
 // Load environment variables
 config();
 
@@ -17,10 +19,12 @@ app.use(cors({ origin: "*" })); // Enable CORS
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
-// Routes
 app.get("/api/v1", (req, res) => {
   res.json({ message: "Welcome to the node mongoDB typescript API" });
 });
+
+// Routes
+app.use("/api/v1/auth", authRouter);
 
 // Error handling
 app.use(notFoundMiddleware);
