@@ -7,6 +7,7 @@ import { notFoundMiddleware } from "./middleware/notFoundMiddleware";
 import { errorMiddleware } from "./middleware/errorMiddleware";
 
 import authRouter from "./routes/authRoutes";
+import onBoardingNewRouter from "./routes/onboardingNewResumeRoutes";
 
 // Load environment variables
 config();
@@ -25,6 +26,7 @@ app.get("/api/v1", (req, res) => {
 
 // Routes
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/onboarding", onBoardingNewRouter);
 
 // Error handling
 app.use(notFoundMiddleware);

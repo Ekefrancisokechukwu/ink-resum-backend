@@ -1,35 +1,36 @@
-import mongoose, { Date, Document } from "mongoose";
+import mongoose, { Document } from "mongoose";
 
-interface PersonalInfo {
-  name: string;
+export interface PersonalInfo {
+  fullname: string;
   email: string;
   phone?: string;
-  location?: string;
+  location?: { country: string; state: string };
+  profileImage?: string;
 }
 
-interface SocialLinks {
-  github: string;
-  linkedin: string;
-  portfolio: string;
-  behance: string;
-  x: string;
+export interface SocialLinks {
+  github?: string;
+  linkedin?: string;
+  portfolio?: string;
+  behance?: string;
+  x?: string;
 }
 
-interface Education {
+export interface Education {
   school: string;
   degree: string;
   yearCompleted: number;
 }
 
-interface Position {
+export interface Position {
   title: string;
   startDate: Date;
   endDate?: Date;
   responsibilities: string[];
 }
 
-interface Company {
-  name: string;
+export interface Company {
+  companyName: string;
   location?: string;
   positions: Position[];
 }
@@ -42,30 +43,41 @@ type Step =
   | "education"
   | "certification";
 
-interface ResumeProps extends Document {
+export interface ResumeBase {
   personalInfo: PersonalInfo;
   socialLinks: SocialLinks;
   languages: string[];
   skills: string[];
-  education: Education;
-  experince: Company;
-  completedSteps: Step[];
+  education: Education[];
+  experince: Company[];
+  completedOnboardingSteps: Step[];
+  user: mongoose.Types.ObjectId;
 }
+
+export interface ResumeProps extends ResumeBase, Document {}
 
 const resumeSchema = new mongoose.Schema<ResumeProps>(
   {
-    experince: {
-      name: { type: String, required: true },
-      location: { type: String },
-      positions: [
-        {
-          title: { type: String, required: true },
-          startDate: { type: Date, required: true },
-          endDate: { type: Date },
-          responsibilities: [{ type: String }],
-        },
-      ],
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
+    experince: [
+      {
+        companyName: { type: String, required: true },
+        location: { type: String },
+        positions: [
+          {
+            title: { type: String, required: true },
+            startDate: { type: Date, required: true },
+            endDate: { type: Date },
+            responsibilities: [{ type: String }],
+          },
+        ],
+      },
+    ],
+
     socialLinks: {
       github: { type: String },
       linkedin: { type: String },
@@ -76,12 +88,23 @@ const resumeSchema = new mongoose.Schema<ResumeProps>(
     languages: [{ type: String }],
     skills: [{ type: String }],
     personalInfo: {
-      name: { type: String, required: true },
-      email: { type: String, required: true },
+      fullname: { type: String, required: true },
+      email: { type: String },
       phone: { type: String },
-      location: { type: String },
+      location: {
+        country: { type: String },
+        state: { type: String },
+      },
+      profileImage: { type: String },
     },
-    completedSteps: [{ type: String }],
+    education: [
+      {
+        school: { type: String },
+        degree: { type: String },
+        yearCompleted: { type: Number },
+      },
+    ],
+    completedOnboardingSteps: [{ type: String }],
   },
   { timestamps: true }
 );
