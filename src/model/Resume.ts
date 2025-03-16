@@ -35,6 +35,14 @@ export interface Company {
   positions: Position[];
 }
 
+export interface Certification {
+  name: string;
+  issuingOrganization: string;
+  issueDate: Date;
+  credentialId: string;
+  credentialUrl: string;
+}
+
 type Step =
   | "personalInfos"
   | "experience"
@@ -52,6 +60,8 @@ export interface ResumeBase {
   experince: Company[];
   completedOnboardingSteps: Step[];
   user: mongoose.Types.ObjectId;
+  summary?: string;
+  certification: Certification[];
 }
 
 export interface ResumeProps extends ResumeBase, Document {}
@@ -77,7 +87,6 @@ const resumeSchema = new mongoose.Schema<ResumeProps>(
         ],
       },
     ],
-
     socialLinks: {
       github: { type: String },
       linkedin: { type: String },
@@ -102,6 +111,16 @@ const resumeSchema = new mongoose.Schema<ResumeProps>(
         school: { type: String },
         degree: { type: String },
         yearCompleted: { type: Number },
+      },
+    ],
+    summary: { type: String, default: "" },
+    certification: [
+      {
+        name: { type: String, required: true },
+        issuingOrganization: { type: String, required: true },
+        issueDate: { type: Date, required: true },
+        credentialId: { type: String, default: "" },
+        credentialUrl: { type: String, default: "" },
       },
     ],
     completedOnboardingSteps: [{ type: String }],
