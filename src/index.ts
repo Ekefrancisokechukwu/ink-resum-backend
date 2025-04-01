@@ -16,7 +16,4 @@ async function start() {
   }
 }
 
-//  cluster password M3ZG8pt4CCGdh7pg
-// username spectertech202
-
 start();
