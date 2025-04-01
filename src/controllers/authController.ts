@@ -4,17 +4,6 @@ import BadRequestError from "../errors/badRequestError";
 import NotFoundError from "../errors/notfoundError";
 import { attachcookiesToResponse } from "../libs/jwt";
 
-// export async function handleAuth(req: Request, res: Response) {
-//   const user = {
-//     userId: `userId-${Math.random() * 230}`,
-//     name: "Mark Doe",
-//     email: "johntfest@gmail.com",
-//   };
-
-//   await User.create(user);
-//   res.status(201).json({ message: "User created " });
-// }
-
 export async function handleAuthSignup(req: Request, res: Response) {
   const { email, password, fullname } = req.body;
 
@@ -29,11 +18,13 @@ export async function handleAuthSignup(req: Request, res: Response) {
   }
 
   const user = await User.create({ email, password, fullname });
-
   res.status(201).json({ message: "Register sucessfully", user });
 }
 
-export async function login(req: Request, res: Response): Promise<void> {
+export async function handleAuthLogin(
+  req: Request,
+  res: Response
+): Promise<void> {
   const { email, password } = req.body;
 
   if (!email || !password) {
